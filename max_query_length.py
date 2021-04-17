@@ -14,7 +14,7 @@ except IOError:
 
     # Strips the newline character
 for line in Lines:
-    if (line.length() > max_line_length):
-        max_line_length = line.length()
+    if (len(line) > max_line_length):
+        max_line_length = len(line)
 
 print(max_line_length)
