@@ -4,8 +4,9 @@ from keras.preprocessing.sequence import pad_sequences
 import sys
 import numpy as np
 from numpy import savetxt
+from numpy import save
 
-def do_things(file_location, column_value, file_name):
+def do_things(file_location, column_value):
     #grab data from file
     list = []
 
@@ -33,12 +34,18 @@ def do_things(file_location, column_value, file_name):
     #print(padded.shape)
     #print(new_column.shape)
     an_array = np.append(padded, new_column, axis=1)
-    savetxt(file_name, an_array, delimiter=',')
+
+    return an_array
 
 
 
 #__main__
-if (len(sys.argv)==4):
-    do_things(sys.argv[1],sys.argv[2],sys.argv[3])
+if (len(sys.argv)==6):
+    file_name = sys.argv[5]
+    array1 = do_things(sys.argv[1],sys.argv[2])
+    array2 = do_things(sys.argv[3],sys.argv[4])
+    an_array = np.vstack((array1,array2))
+    #savetxt(file_name, an_array, delimiter=',')
+    save(file_name,an_array)
 else:
-    print("Proper format is: python3 convert_training_samples.py <data_source> <value as a string in last column> <destination file>")
+    print("Proper format is: python3 convert_training_samples.py <data_source1> <value as a string in last column> <data_source2> <value as a string in last column> <destination file>")
