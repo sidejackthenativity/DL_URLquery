@@ -41,11 +41,33 @@ def do_things(file_location, column_value):
 
 #__main__
 if (len(sys.argv)==6):
+
+
+    TRAININGSETPERCENT = 0.9
+
     file_name = sys.argv[5]
     array1 = do_things(sys.argv[1],sys.argv[2])
     array2 = do_things(sys.argv[3],sys.argv[4])
-    an_array = np.vstack((array1,array2))
+    data_array = np.vstack((array1,array2))
     #savetxt(file_name, an_array, delimiter=',')
-    save(file_name,an_array)
+
+    #shuffle
+    np.random.shuffle(data_array)
+    rows_in_array = data_array.shape[0]
+    number_of_training_sets = int(TRAININGSETPERCENT*rows_in_array)
+    print("rows_in_array: ",rows_in_array)
+    print("number_of_training_sets: ",number_of_training_sets)
+    #Seperate the data into X_train and Y_train
+
+    X_TRAIN = data_array[:number_of_training_sets,:-1].T
+    X_TEST = data_array[number_of_training_sets:,:-1].T
+    Y_TRAIN = data_array[:number_of_training_sets,-1].T
+    Y_TEST = data_array[number_of_training_sets:,-1].T
+
+    save("X_TRAIN",X_TRAIN)
+    save("X_TEST",X_TEST)
+    save("Y_TRAIN",Y_TRAIN)
+    save("Y_TEST",Y_TEST)
+
 else:
     print("Proper format is: python3 convert_training_samples.py <data_source1> <value as a string in last column> <data_source2> <value as a string in last column> <destination file>")
